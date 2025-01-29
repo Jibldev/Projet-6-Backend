@@ -16,6 +16,9 @@ connectDB();
 app.use(express.json()); 
 app.use(cors()); 
 
+// Servir les fichiers statiques du dossier "uploads"
+app.use("/uploads", express.static("uploads"));
+
 // Routes
 app.use("/api/books", require("./routes/bookRoutes")); 
 

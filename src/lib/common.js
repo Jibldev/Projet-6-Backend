@@ -1,11 +1,14 @@
 import axios from 'axios';
 import { API_ROUTES } from '../utils/constants';
 
-function formatBooks(bookArray) {
+export function formatBooks(bookArray) {
   return bookArray.map((book) => {
     const newBook = { ...book };
     // eslint-disable-next-line no-underscore-dangle
     newBook.id = newBook._id;
+    if (newBook.imageUrl) {
+      newBook.imageUrl = `http://localhost:5000${newBook.imageUrl}`;
+    }
     return newBook;
   });
 }
