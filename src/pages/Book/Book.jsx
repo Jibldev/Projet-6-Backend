@@ -23,6 +23,7 @@ function Book() {
   useEffect(() => {
     async function getItem() {
       const data = await getBook(params.id);
+      console.log(data);
       if (data) {
         setBook(data);
       }
@@ -66,7 +67,7 @@ function Book() {
   const bookContent = !loading && !book.delete ? (
     <div>
       <div className={styles.Book}>
-        <div className={styles.BookImage} style={{ backgroundImage: `url("${book.imageUrl}")` }} />
+        <div className={styles.BookImage} style={{ backgroundImage: `url("http://localhost:5000${book.imageUrl}")` }} />
         <div className={styles.BookContent}>
           {book?.userId === connectedUser?.userId ? (
             <div className={styles.Owner}>

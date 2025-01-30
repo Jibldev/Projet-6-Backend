@@ -38,7 +38,7 @@ const processImage = async (req, res, next) => {
     // Optimisation de l'image
     await sharp(buffer)
       .resize(800) 
-      .jpeg({ quality: 70 }) 
+      .jpeg({ quality: 80 }) 
       .toFile(outputPath);
 
 

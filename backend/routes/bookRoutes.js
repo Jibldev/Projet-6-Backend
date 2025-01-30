@@ -6,7 +6,9 @@ const { upload, processImage } = require("../middleware/uploadMiddleware");
 const router = express.Router();
 
 router.get("/", bookController.getAllBooks);
+router.get("/:id", bookController.getBookById);
 router.post("/", upload.single("image"), processImage, bookController.addBook);
+router.post("/:id/rating", authMiddleware, bookController.rateBook);
 router.delete("/:id", bookController.deleteBook);
 
 
