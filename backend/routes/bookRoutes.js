@@ -1,11 +1,11 @@
 const express = require("express");
 const bookController = require("../controllers/bookController");
-const authMiddleware = require("../middleware/authMiddleware"); // Si nécessaire
-const upload = require("../middleware/uploadMiddleware"); // Ajout de multer
+const authMiddleware = require("../middleware/authMiddleware"); 
+const { upload, processImage } = require("../middleware/uploadMiddleware"); 
 
 const router = express.Router();
 
-router.get("/", bookController.getAllBooks); // Récupérer les livres
-router.post("/", upload.single("image"), bookController.addBook); // Ajouter un livre avec image
+router.get("/", bookController.getAllBooks);
+router.post("/", upload.single("image"), processImage, bookController.addBook);
 
 module.exports = router;
