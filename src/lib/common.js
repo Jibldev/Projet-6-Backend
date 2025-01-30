@@ -118,20 +118,14 @@ export async function rateBook(id, userId, rating) {
 
 export async function addBook(data) {
   const userId = localStorage.getItem('userId');
-  const book = {
-    userId,
-    title: data.title,
-    author: data.author,
-    year: data.year,
-    genre: data.genre,
-    ratings: [{
-      userId,
-      grade: data.rating ? parseInt(data.rating, 10) : 0,
-    }],
-    averageRating: parseInt(data.rating, 10),
-  };
+
   const bodyFormData = new FormData();
-  bodyFormData.append('book', JSON.stringify(book));
+  bodyFormData.append('userId', userId);
+  bodyFormData.append('title', data.title);
+  bodyFormData.append('author', data.author);
+  bodyFormData.append('year', data.year);
+  bodyFormData.append('genre', data.genre);
+  bodyFormData.append('ratings', JSON.stringify([{ userId, grade: parseInt(data.rating, 10) }]));
   bodyFormData.append('image', data.file[0]);
 
   try {
@@ -141,6 +135,7 @@ export async function addBook(data) {
       data: bodyFormData,
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
+        'Content-Type': 'multipart/form-data',
       },
     });
   } catch (err) {

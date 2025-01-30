@@ -12,53 +12,51 @@ exports.getAllBooks = async (req, res) => {
 
 exports.getBookById = async (req, res) => {
   try {
-    console.log("Requête reçue pour l'ID :", req.params.id); // Log de l'ID
     const book = await Book.findById(req.params.id);
-
     if (!book) {
-      console.log("Livre non trouvé pour ID :", req.params.id);
       return res.status(404).json({ message: "Livre non trouvé" });
     }
 
-    console.log("Livre trouvé :", book);
+    console.log("📚 Livre récupéré :", book); // ✅ Vérifier les données envoyées au frontend
+
     res.json(book);
   } catch (error) {
     console.error("Erreur serveur lors de la récupération du livre :", error);
-    res.status(500).json({ message: "Erreur serveur", error: error.message });
+    res.status(500).json({ message: "Erreur serveur" });
   }
 };
 
 // Ajouter un livre
 exports.addBook = async (req, res) => {
   try {
-    console.log("Fichier reçu :", req.file);
-    console.log("Corps de la requête :", req.body);
-
-    const bookData = JSON.parse(req.body.book);
-
-    const { title, author, year, genre, ratings, averageRating } = bookData;
-    const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
-
-    if (!title || !author || !year || !genre || !ratings || !imageUrl) {
-      return res
-        .status(400)
-        .json({ message: "Tous les champs et une image sont requis !" });
+    if (!req.user || !req.user.userId) {
+      return res.status(401).json({ message: "Utilisateur non authentifié" });
     }
+
+    const { title, author, year, genre, ratings } = req.body;
+    if (!title || !author || !year || !genre) {
+      return res.status(400).json({ message: "Tous les champs sont requis." });
+    }
+
+    const imageUrl = req.file ? `/uploads/${req.file.filename}` : null;
 
     const newBook = new Book({
       title,
       author,
       year,
       genre,
-      ratings,
-      averageRating,
       imageUrl,
+      userId: req.user.userId,
+      ratings: ratings ? JSON.parse(ratings) : [],
+      averageRating: JSON.parse(ratings)[0].grade,
     });
-    const savedBook = await newBook.save();
+    console.log("rating");
+    console.log(newBook.ratings);
 
-    res.status(201).json(savedBook);
-  } catch (err) {
-    console.error("Erreur serveur :", err);
+    await newBook.save();
+    res.status(201).json(newBook);
+  } catch (error) {
+    console.error("Erreur lors de l'ajout du livre :", error);
     res.status(500).json({ message: "Erreur serveur" });
   }
 };
@@ -109,7 +107,6 @@ exports.deleteBook = async (req, res) => {
       return res.status(404).json({ message: "Livre non trouvé" });
     }
 
-
     if (book.imageUrl) {
       const imagePath = path.join(__dirname, "../", book.imageUrl);
       fs.unlink(imagePath, (err) => {
@@ -118,7 +115,6 @@ exports.deleteBook = async (req, res) => {
         }
       });
     }
-
 
     await Book.findByIdAndDelete(bookId);
 
