@@ -36,3 +36,36 @@ exports.addBook = async (req, res) => {
   }
 };
 
+const fs = require("fs");
+const path = require("path");
+
+// Supprimer un livre et son image associée
+exports.deleteBook = async (req, res) => {
+    try {
+        const bookId = req.params.id;
+        const book = await Book.findById(bookId);
+
+        if (!book) {
+            return res.status(404).json({ message: "Livre non trouvé" });
+        }
+
+        // Vérifier s'il y a une image et la supprimer
+        if (book.imageUrl) {
+            const imagePath = path.join(__dirname, "../", book.imageUrl); // Récupération du chemin
+            fs.unlink(imagePath, (err) => {
+                if (err && err.code !== "ENOENT") {
+                    console.error("Erreur lors de la suppression de l'image :", err);
+                }
+            });
+        }
+
+        // Supprimer le livre de la base de données
+        await Book.findByIdAndDelete(bookId);
+
+        res.status(200).json({ message: "Livre et image supprimés avec succès" });
+    } catch (err) {
+        console.error("Erreur lors de la suppression :", err);
+        res.status(500).json({ message: "Erreur serveur" });
+    }
+};
+

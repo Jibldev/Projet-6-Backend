@@ -7,5 +7,7 @@ const router = express.Router();
 
 router.get("/", bookController.getAllBooks);
 router.post("/", upload.single("image"), processImage, bookController.addBook);
+router.delete("/:id", bookController.deleteBook);
+
 
 module.exports = router;
