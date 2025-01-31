@@ -9,6 +9,7 @@ router.get("/", bookController.getAllBooks);
 router.get("/:id", bookController.getBookById);
 router.post("/", authMiddleware, upload.single("image"), processImage, bookController.addBook);
 router.post("/:id/rating", authMiddleware, bookController.rateBook);
+router.put("/:id", authMiddleware, upload.single("image"), processImage, bookController.updateBook);
 router.delete("/:id", bookController.deleteBook);
 
 

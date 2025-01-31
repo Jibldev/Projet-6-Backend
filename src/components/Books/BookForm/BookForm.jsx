@@ -85,7 +85,27 @@ function BookForm({ book, validate }) {
       </label>
       <label htmlFor="year">
         <p>Année de publication</p>
-        <input type="text" id="year" {...register('year')} />
+        <input
+          type="text"
+          id="year"
+          {
+            ...register('year', {
+              required: 'L\'année de publication est requise',
+              validate: (value) => {
+                const currentYear = new Date().getFullYear();
+                const yearNumber = parseInt(value, 10);
+                if (Number.isNaN(yearNumber)) {
+                  return 'L\'année doit être un nombre.';
+                }
+                if (yearNumber < 0 || yearNumber > currentYear) {
+                  return `L'année doit être comprise entre 1 et ${currentYear}.`;
+                }
+                return true; // Validation réussie
+              },
+            })
+          }
+        />
+        {formState.errors.year && <p className={styles.error}>{formState.errors.year.message}</p>}
       </label>
       <label htmlFor="genre">
         <p>Genre</p>
@@ -102,7 +122,7 @@ function BookForm({ book, validate }) {
         <div className={styles.AddImage}>
           {filePreview || book?.imageUrl ? (
             <>
-              <img src={filePreview ?? book?.imageUrl} alt="preview" />
+              <img src={filePreview ?? (book?.imageUrl ? `http://localhost:5000${book.imageUrl}` : '')} alt="preview" />
               <p>Modifier</p>
             </>
           ) : (

@@ -1,4 +1,5 @@
 const Book = require("../models/book");
+const { validationResult } = require("express-validator");
 
 // Récupérer tous les livres
 exports.getAllBooks = async (req, res) => {
@@ -122,5 +123,43 @@ exports.deleteBook = async (req, res) => {
   } catch (err) {
     console.error("Erreur lors de la suppression :", err);
     res.status(500).json({ message: "Erreur serveur" });
+  }
+};
+
+exports.updateBook = async (req, res) => {
+  try {
+    // Vérifier les erreurs de validation
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ message: errors.array()[0].msg });
+    }
+
+    const { id } = req.params;
+    const updatedData = req.body; // Empêche une erreur si `req.body.book` est undefined
+
+    console.log("📖 Données parsées :", updatedData);
+
+    let updateFields = {
+      title: updatedData.title,
+      author: updatedData.author,
+      year: updatedData.year,
+      genre: updatedData.genre,
+    };
+
+    if (req.file) {
+      updateFields.imageUrl = `/uploads/${req.file.filename}`;
+    }
+
+    const updatedBook = await Book.findByIdAndUpdate(id, updateFields, {
+      new: true,
+    });
+
+    if (!updatedBook) {
+      return res.status(404).json({ message: "Livre non trouvé" });
+    }
+
+    res.json(updatedBook);
+  } catch (error) {
+    res.status(500).json({ message: "Erreur serveur", error: error.message });
   }
 };

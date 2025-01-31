@@ -14,22 +14,45 @@ function UpdateBook() {
   const navigate = useNavigate();
   const { connectedUser, auth, userLoading } = useUser();
   const [created, setCreated] = useState(false);
+
   useEffect(() => {
     if (!userLoading) {
       if (!connectedUser || !auth) {
         navigate(APP_ROUTES.SIGN_IN);
       }
     }
-  }, [userLoading]);
+  }, [userLoading, connectedUser, auth, navigate]);
+
   useEffect(() => {
-    async function getItem() {
+    async function fetchBookData() {
       const data = await getBook(params.id);
+      console.log('📚 Données du livre récupérées:', data);
       if (data) {
         setBook(data);
       }
     }
-    getItem();
-  }, []);
+    fetchBookData(); // 🔄 Ajout de l'appel à la fonction
+  }, [params.id]);
+
+  // 🔄 Fonction pour rafraîchir les données après modification
+  const handleUpdate = async () => {
+    try {
+      const updatedData = await getBook(params.id);
+      console.log('🔄 Données après mise à jour:', updatedData);
+      if (updatedData) {
+        setBook(updatedData);
+        setCreated(true); // Affiche le message de succès
+      }
+    } catch (error) {
+      console.error('❌ Erreur lors de la mise à jour :', error);
+      // Vérifie si l'erreur est liée à une année invalide
+      if (error.response && error.response.status === 500) {
+        alert('Erreur : Veuillez entrer une année valide en chiffres uniquement (ex: 2024)');
+      } else {
+        alert('Une erreur est survenue, veuillez réessayer.');
+      }
+    }
+  };
 
   return (
     <div className="content-container">
@@ -39,12 +62,13 @@ function UpdateBook() {
           <>
             <h1>Modifier votre livre</h1>
             <p>Vous pouvez modifier tous les champs sauf la note donnée</p>
-            <BookForm book={book} validate={setCreated} />
+            <BookForm book={book} validate={handleUpdate} />
+            {/* Met à jour après modification */}
           </>
         ) : (
           <div className={styles.Created}>
             <h1>Merci!</h1>
-            <p>votre livre a bien été mis à jour</p>
+            <p>Votre livre a bien été mis à jour</p>
             <img src={bookAdd} alt="Livre mis à jour" />
             <Link to="/" className="button">Retour à l&apos;accueil</Link>
           </div>
