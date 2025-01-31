@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import * as PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
-import { API_ROUTES, APP_ROUTES } from '../../utils/constants';
+import { APP_ROUTES } from '../../utils/constants';
 import { useUser } from '../../lib/customHooks';
 import { storeInLocalStorage } from '../../lib/common';
 import { ReactComponent as Logo } from '../../images/Logo.svg';
-import { login, signup } from "../../lib/auth";  // Importation des fonctions d'authentification
+import { login, signup } from '../../lib/auth';
 import styles from './SignIn.module.css';
 
 function SignIn({ setUser }) {
@@ -33,12 +32,12 @@ function SignIn({ setUser }) {
         setNotification({ error: true, message: result.message });
       } else {
         storeInLocalStorage(result.token, result.userId);
-        setUser(result);  // Met à jour l'état utilisateur
-        navigate('/');  // Redirige vers l'accueil
+        setUser(result);
+        navigate('/');
       }
     } catch (err) {
       console.error('Erreur lors de la connexion :', err);
-      setNotification({ error: true, message: "Une erreur est survenue." });
+      setNotification({ error: true, message: 'Une erreur est survenue.' });
     } finally {
       setIsLoading(false);
     }
@@ -53,11 +52,11 @@ function SignIn({ setUser }) {
       if (result.error) {
         setNotification({ error: true, message: result.message });
       } else {
-        setNotification({ error: false, message: "Votre compte a bien été créé, vous pouvez vous connecter." });
+        setNotification({ error: false, message: 'Votre compte a bien été créé, vous pouvez vous connecter.' });
       }
     } catch (err) {
       console.error('Erreur lors de l\'inscription :', err);
-      setNotification({ error: true, message: "Une erreur est survenue." });
+      setNotification({ error: true, message: 'Une erreur est survenue.' });
     } finally {
       setIsLoading(false);
     }
@@ -99,7 +98,7 @@ function SignIn({ setUser }) {
             onClick={handleLogin}
             disabled={isLoading}
           >
-            {isLoading ? <span>Chargement...</span> : "Se connecter"}
+            {isLoading ? <span>Chargement...</span> : 'Se connecter'}
           </button>
           <span>OU</span>
           <button

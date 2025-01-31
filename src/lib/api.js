@@ -6,7 +6,7 @@ export const addBook = async (bookData) => {
   try {
     const token = localStorage.getItem('token'); // Récupérer le token de l'utilisateur
     if (!token) {
-      return { error: true, message: "Utilisateur non authentifié" };
+      return { error: true, message: 'Utilisateur non authentifié' };
     }
 
     const formData = new FormData();
@@ -27,6 +27,6 @@ export const addBook = async (bookData) => {
     return response.data; // Retourne le livre ajouté
   } catch (error) {
     console.error("Erreur lors de l'ajout du livre :", error);
-    return { error: true, message: error.response?.data?.message || "Erreur serveur" };
+    return { error: true, message: error.response?.data?.message || 'Erreur serveur' };
   }
 };
