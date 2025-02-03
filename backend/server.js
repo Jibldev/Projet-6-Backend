@@ -5,6 +5,7 @@ console.log("🔍 URI MongoDB:", process.env.MONGO_URI);
 const express = require("express");
 const cors = require("cors");
 const connectDB = require("./config/db"); 
+const topBooksRoutes = require("./routes/topBooksRoutes");
 
 // Initialisation de l'application Express
 const app = express();
@@ -28,6 +29,8 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/auth", require("./routes/authRoutes"));
+
+app.use("/api/top-books", topBooksRoutes);
 
 
 // Démarrer le serveur

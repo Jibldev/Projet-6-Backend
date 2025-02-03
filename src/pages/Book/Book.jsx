@@ -1,4 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable no-underscore-dangle */
 
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
@@ -100,7 +101,7 @@ function Book() {
         </div>
       </div>
       <hr />
-      <BestRatedBooks />
+      <BestRatedBooks currentBookId={book._id.toString()} />
     </div>
   ) : null;
   const deletedContent = book?.delete ? (

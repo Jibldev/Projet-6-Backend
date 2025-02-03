@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getAuthenticatedUser, getBestRatedBooks } from './common';
+import { getAuthenticatedUser } from './common';
 
 // eslint-disable-next-line import/prefer-default-export
 export function useUser() {
@@ -20,16 +20,33 @@ export function useUser() {
   return { connectedUser, auth, userLoading };
 }
 
-export function useBestRatedBooks() {
-  const [bestRatedBooks, setBestRatedBooks] = useState({});
+export function useBestRatedBooks(currentBookId) {
+  const [bestRatedBooks, setBestRatedBooks] = useState([]);
 
   useEffect(() => {
     async function getRatedBooks() {
-      const books = await getBestRatedBooks();
-      setBestRatedBooks(books);
+      try {
+        console.log(`📌 Appel API avec currentBookId : ${currentBookId}`);
+
+        const url = `http://localhost:5000/api/top-books/${currentBookId}`;
+        console.log('📌 URL API appelée :', url);
+
+        const response = await fetch(url);
+        console.log('📌 Réponse brute de l"API :', response);
+
+        const books = await response.json();
+        console.log('📌 Livres reçus :', books);
+
+        setBestRatedBooks(books);
+      } catch (error) {
+        console.error('❌ Erreur lors du chargement des meilleurs livres :', error);
+      }
     }
-    getRatedBooks();
-  }, []);
+
+    if (currentBookId) {
+      getRatedBooks();
+    }
+  }, [currentBookId]);
 
   return { bestRatedBooks };
 }
