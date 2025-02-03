@@ -2,7 +2,6 @@ import API_URL from '../config';
 
 // Fonction d'inscription avec gestion des erreurs
 export const signup = async (email, password) => {
-  console.log('Tentative d\'inscription avec:', email, password);
   try {
     const response = await fetch(`${API_URL}/auth/signup`, {
       method: 'POST',
@@ -35,7 +34,6 @@ export const signup = async (email, password) => {
 
 // Fonction de connexion
 export const login = async (email, password) => {
-  console.log('📝 Tentative de connexion avec :', email, password);
   try {
     const response = await fetch(`${API_URL}/auth/login`, {
       method: 'POST',
@@ -46,10 +44,7 @@ export const login = async (email, password) => {
     });
 
     const data = await response.json();
-    console.log('🔍 Réponse complète du serveur :', response);
-    console.log('🔍 Réponse du serveur :', data);
     if (!data.token) {
-      console.log('❌ Aucun token reçu, la connexion a échoué !');
       return { error: true, message: data.message || 'Erreur inconnue' };
     }
     return data;

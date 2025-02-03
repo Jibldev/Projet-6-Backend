@@ -18,7 +18,6 @@ exports.getBookById = async (req, res) => {
       return res.status(404).json({ message: "Livre non trouvé" });
     }
 
-    console.log("📚 Livre récupéré :", book); // ✅ Vérifier les données envoyées au frontend
 
     res.json(book);
   } catch (error) {
@@ -51,8 +50,6 @@ exports.addBook = async (req, res) => {
       ratings: ratings ? JSON.parse(ratings) : [],
       averageRating: JSON.parse(ratings)[0].grade,
     });
-    console.log("rating");
-    console.log(newBook.ratings);
 
     await newBook.save();
     res.status(201).json(newBook);
@@ -136,8 +133,6 @@ exports.updateBook = async (req, res) => {
 
     const { id } = req.params;
     const updatedData = req.body; // Empêche une erreur si `req.body.book` est undefined
-
-    console.log("📖 Données parsées :", updatedData);
 
     let updateFields = {
       title: updatedData.title,

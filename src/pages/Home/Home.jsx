@@ -14,7 +14,6 @@ function Home() {
   useEffect(() => {
     async function getBooksList() {
       const data = await getBooks();
-      console.log('📚 Livres récupérés :', data); // Affichage dans la console
       if (data) {
         setBooks(data);
         setLoading(false);

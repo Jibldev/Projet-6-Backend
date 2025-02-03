@@ -26,7 +26,6 @@ function UpdateBook() {
   useEffect(() => {
     async function fetchBookData() {
       const data = await getBook(params.id);
-      console.log('📚 Données du livre récupérées:', data);
       if (data) {
         setBook(data);
       }
@@ -38,7 +37,6 @@ function UpdateBook() {
   const handleUpdate = async () => {
     try {
       const updatedData = await getBook(params.id);
-      console.log('🔄 Données après mise à jour:', updatedData);
       if (updatedData) {
         setBook(updatedData);
         setCreated(true); // Affiche le message de succès
