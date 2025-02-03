@@ -5,12 +5,7 @@ import BookItem from '../BookItem/BookItem';
 import styles from './BestRatedBooks.module.css';
 
 function BestRatedBooks({ currentBookId }) {
-  console.log('📌 currentBookId reçu :', currentBookId);
-
   const { bestRatedBooks } = useBestRatedBooks(currentBookId);
-
-  console.log('📌 Livres récupérés depuis l"API :', bestRatedBooks);
-
   const bestRatedBooksContent = bestRatedBooks.length > 0 ? (
     bestRatedBooks.map((elt) => (
       // eslint-disable-next-line no-underscore-dangle

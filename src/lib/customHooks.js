@@ -26,17 +26,9 @@ export function useBestRatedBooks(currentBookId) {
   useEffect(() => {
     async function getRatedBooks() {
       try {
-        console.log(`📌 Appel API avec currentBookId : ${currentBookId}`);
-
         const url = `http://localhost:5000/api/top-books/${currentBookId}`;
-        console.log('📌 URL API appelée :', url);
-
         const response = await fetch(url);
-        console.log('📌 Réponse brute de l"API :', response);
-
         const books = await response.json();
-        console.log('📌 Livres reçus :', books);
-
         setBestRatedBooks(books);
       } catch (error) {
         console.error('❌ Erreur lors du chargement des meilleurs livres :', error);

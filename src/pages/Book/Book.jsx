@@ -24,7 +24,6 @@ function Book() {
   useEffect(() => {
     async function getItem() {
       const data = await getBook(params.id);
-      console.log(data);
       if (data) {
         setBook(data);
       }

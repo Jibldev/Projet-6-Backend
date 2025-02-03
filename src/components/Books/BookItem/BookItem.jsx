@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -17,8 +19,10 @@ function BookItem({ book, size }) {
       title = <h2>{book.title}</h2>;
       break;
   }
+  console.log('📌 BookItem - Livre :', book);
+  console.log('📌 BookItem - ID du livre utilisé dans le lien :', book._id);
   return (
-    <Link to={`/livre/${book.id}`} className={styles.BookItem}>
+    <Link to={`/livre/${book._id}`} className={styles.BookItem}>
       <article>
         <img className={styles.BookImage} src={book.imageUrl.startsWith('/uploads/') ? `http://localhost:5000${book.imageUrl}` : book.imageUrl} alt={`${book.title}, ${book.author} - ${book.year}`} />
         <div className={styles.BookInfo}>
@@ -38,7 +42,7 @@ function BookItem({ book, size }) {
 BookItem.propTypes = {
   size: PropTypes.number.isRequired,
   book: PropTypes.shape({
-    id: PropTypes.string,
+    _id: PropTypes.string,
     userId: PropTypes.string,
     title: PropTypes.string,
     author: PropTypes.string,
