@@ -76,11 +76,22 @@ function BookForm({ book, validate }) {
       <input type="hidden" id="id" {...register('id')} />
       <label htmlFor="title">
         <p>Titre du livre</p>
-        <input type="text" id="title" {...register('title')} />
+        <input
+          type="text"
+          id="title"
+          {...register('title', { required: 'Le titre est requis' })}
+        />
+        {formState.errors.title && <p className={styles.error}>{formState.errors.title.message}</p>}
       </label>
       <label htmlFor="author">
         <p>Auteur</p>
-        <input type="text" id="author" {...register('author')} />
+        <input
+          type="text"
+          id="author"
+          {...register('author', { required: "L'auteur est requis" })}
+        />
+        {formState.errors.author
+        && <p className={styles.error}>{formState.errors.author.message}</p>}
       </label>
       <label htmlFor="year">
         <p>Année de publication</p>
@@ -108,7 +119,12 @@ function BookForm({ book, validate }) {
       </label>
       <label htmlFor="genre">
         <p>Genre</p>
-        <input type="text" id="genre" {...register('genre')} />
+        <input
+          type="text"
+          id="genre"
+          {...register('genre', { required: 'Le genre est requis' })}
+        />
+        {formState.errors.genre && <p className={styles.error}>{formState.errors.genre.message}</p>}
       </label>
       <label htmlFor="rate">
         <p>Note</p>
