@@ -1,9 +1,9 @@
-require("dotenv").config();
+require('dotenv').config();
 
-const express = require("express");
-const cors = require("cors");
-const connectDB = require("./config/db"); 
-const topBooksRoutes = require("./routes/topBooksRoutes");
+const express = require('express');
+const cors = require('cors');
+const connectDB = require('./config/db');
+const topBooksRoutes = require('./routes/topBooksRoutes');
 
 // Initialisation de l'application Express
 const app = express();
@@ -12,24 +12,23 @@ const app = express();
 connectDB();
 
 // Middlewares
-app.use(express.json()); 
-app.use(cors()); 
+app.use(express.json());
+app.use(cors());
 
 // Servir les fichiers statiques du dossier "uploads"
-app.use("/uploads", express.static("uploads"));
+app.use('/uploads', express.static('uploads'));
 
 // Routes
-app.use("/api/books", require("./routes/bookRoutes")); 
+app.use('/api/books', require('./routes/bookRoutes'));
 
 // Route test
-app.get("/", (req, res) => {
-    res.send("Serveur backend opérationnel !");
+app.get('/', (req, res) => {
+  res.send('Serveur backend opérationnel !');
 });
 
-app.use("/api/auth", require("./routes/authRoutes"));
+app.use('/api/auth', require('./routes/authRoutes'));
 
-app.use("/api/top-books", topBooksRoutes);
-
+app.use('/api/top-books', topBooksRoutes);
 
 // Démarrer le serveur
 const PORT = process.env.PORT || 5000;
