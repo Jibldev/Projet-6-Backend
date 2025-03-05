@@ -65,6 +65,7 @@ function Book() {
   };
 
   const loadingContent = <h1>Chargement ...</h1>;
+  const API_URL = process.env.REACT_APP_API_URL;
 
   const bookContent = !loading && !book.delete ? (
     <div>
@@ -72,7 +73,7 @@ function Book() {
         <div
           className={styles.BookImage}
           style={{
-            backgroundImage: `url("http://localhost:5000${book.imageUrl}")`,
+            backgroundImage: `url("${API_URL}${book.imageUrl}")`,
           }}
         />
         <div className={styles.BookContent}>

@@ -24,9 +24,10 @@ export function useBestRatedBooks(currentBookId) {
   const [bestRatedBooks, setBestRatedBooks] = useState([]);
 
   useEffect(() => {
+    const API_URL = process.env.REACT_APP_API_URL;
     async function getRatedBooks() {
       try {
-        const url = `http://localhost:5000/api/top-books/${currentBookId}`;
+        const url = `${API_URL}/api/top-books/${currentBookId}`;
         const response = await fetch(url);
         const books = await response.json();
         setBestRatedBooks(books);

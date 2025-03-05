@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { API_ROUTES } from '../utils/constants';
+const API_URL = process.env.REACT_APP_API_URL;
 
 export function formatBooks(bookArray) {
   return bookArray.map((book) => {
@@ -7,7 +8,7 @@ export function formatBooks(bookArray) {
     // eslint-disable-next-line no-underscore-dangle
     newBook.id = newBook._id;
     if (newBook.imageUrl) {
-      newBook.imageUrl = `http://localhost:5000${newBook.imageUrl}`;
+      newBook.imageUrl = `${API_URL}${newBook.imageUrl}`;
     }
     return newBook;
   });

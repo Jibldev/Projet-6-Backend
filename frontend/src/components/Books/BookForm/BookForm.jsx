@@ -8,6 +8,7 @@ import { useFilePreview } from '../../../lib/customHooks';
 import addFileIMG from '../../../images/add_file.png';
 import styles from './BookForm.module.css';
 import { updateBook, addBook } from '../../../lib/common';
+const API_URL = process.env.REACT_APP_API_URL;
 
 function BookForm({ book, validate }) {
   const userRating = book ? book.ratings.find((elt) => elt.userId === localStorage.getItem('userId'))?.grade : 0;
@@ -137,7 +138,7 @@ function BookForm({ book, validate }) {
         <div className={styles.AddImage}>
           {filePreview || book?.imageUrl ? (
             <>
-              <img src={filePreview ?? (book?.imageUrl ? `http://localhost:5000${book.imageUrl}` : '')} alt="preview" />
+              <img src={filePreview ?? (book?.imageUrl ? `${API_URL}${book.imageUrl}` : '')} alt="preview" />
               <p>Modifier</p>
             </>
           ) : (

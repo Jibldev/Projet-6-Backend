@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { displayStars } from '../../../lib/functions';
 import styles from './BookItem.module.css';
+const API_URL = process.env.REACT_APP_API_URL;
 
 function BookItem({ book, size }) {
   let title;
@@ -22,7 +23,7 @@ function BookItem({ book, size }) {
   return (
     <Link to={`/livre/${book._id}`} className={styles.BookItem}>
       <article>
-        <img className={styles.BookImage} src={book.imageUrl.startsWith('/uploads/') ? `http://localhost:5000${book.imageUrl}` : book.imageUrl} alt={`${book.title}, ${book.author} - ${book.year}`} />
+        <img className={styles.BookImage} src={book.imageUrl.startsWith('/uploads/') ? `${API_URL}${book.imageUrl}` : book.imageUrl} alt={`${book.title}, ${book.author} - ${book.year}`} />
         <div className={styles.BookInfo}>
           <div className={styles.Rating}>
             {displayStars(book.averageRating)}

@@ -24,8 +24,9 @@ bookSchema.methods.calculateAverageRating = function () {
     this.averageRating = 0;
   } else {
     const total = this.ratings.reduce((sum, ratings) => sum + ratings.grade, 0);
-    this.averageRating = total / this.ratings.length;
+    this.averageRating = (total / this.ratings.length).toFixed(1);
   }
 };
+
 
 module.exports = mongoose.model('Book', bookSchema);
