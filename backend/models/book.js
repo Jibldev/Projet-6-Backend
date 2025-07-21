@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const bookSchema = new mongoose.Schema({
   title: { type: String, required: true },
@@ -11,7 +11,10 @@ const bookSchema = new mongoose.Schema({
     {
       userId: { type: String, required: true },
       grade: {
-        type: Number, min: 0, max: 5, required: true,
+        type: Number,
+        min: 0,
+        max: 5,
+        required: true,
       },
     },
   ],
@@ -24,9 +27,8 @@ bookSchema.methods.calculateAverageRating = function () {
     this.averageRating = 0;
   } else {
     const total = this.ratings.reduce((sum, ratings) => sum + ratings.grade, 0);
-    this.averageRating = (total / this.ratings.length).toFixed(1);
+    this.averageRating = Number(total / this.ratings.length).toFixed(1);
   }
 };
 
-
-module.exports = mongoose.model('Book', bookSchema);
+module.exports = mongoose.model("Book", bookSchema);
